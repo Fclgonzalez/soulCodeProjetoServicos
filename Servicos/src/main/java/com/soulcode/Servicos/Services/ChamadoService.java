@@ -37,19 +37,19 @@ public class ChamadoService {
         return chamado.orElseThrow();
     }
 
-    @Cacheable(value = "chamadosCache")
+    @Cacheable(value = "chamadosCache", key = "#idCliente")
     public List<Chamado> buscarChamadosPorCliente(Integer idCliente) {
         Optional<Cliente> cliente = clienteRepository.findById(idCliente);
         return chamadoRepository.findByCliente(cliente);
     }
 
-    @Cacheable(value = "chamadosCache")
+    @Cacheable(value = "chamadosCache", key = "#idFuncionario")
     public List<Chamado> buscarChamadosPorFuncionario(Integer idFuncionario) {
         Optional<Funcionario> funcionario = funcionarioRepository.findById(idFuncionario);
         return chamadoRepository.findByFuncionario(funcionario);
     }
 
-    @Cacheable(value = "chamadosCache")
+    @Cacheable(value = "chamadosCache", key = "#status")
     public List<Chamado> buscarChamadosPorStatus(String status) {
         return chamadoRepository.findByStatus(status);
     }

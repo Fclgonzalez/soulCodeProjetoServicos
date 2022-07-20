@@ -35,7 +35,7 @@ public class PagamentoService {
         return pagamento.orElseThrow();
     }
 
-    @Cacheable(value = "pagamentosCache")
+    @Cacheable(value = "pagamentosCache", key = "#status")
     public List<Pagamento> mostrarPagamentosPorStatus(String status) {
         return pagamentoRepository.findByStatus(status);
     }

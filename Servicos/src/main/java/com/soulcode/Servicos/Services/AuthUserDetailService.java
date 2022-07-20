@@ -5,6 +5,7 @@ import com.soulcode.Servicos.Models.User;
 import com.soulcode.Servicos.Repositories.UserRepository;
 import com.soulcode.Servicos.Security.AuthUserDetail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,9 +21,9 @@ public class AuthUserDetailService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Override
-    @Cacheable(value = "authUserCache", key = "#login")
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByLogin(username);
+    @CachePut(value = "authUserCache", key = "#login")
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        Optional<User> user = userRepository.findByLogin(login);
         if(user.isEmpty()) {
             throw new UsernameNotFoundException("Usuário não encontrado");
         }
